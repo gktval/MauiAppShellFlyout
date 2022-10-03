@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AppShell.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AppShell"
+    Shell.FlyoutBehavior="Flyout">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <x:Boolean x:Key="myVisible">true</x:Boolean>
+            
+            <Style TargetType="Grid" x:Key="GridStyle">
+                <Setter Property="IsVisible" Value="{DynamicResource myVisible}"/>
+            </Style>
+        </ResourceDictionary>
+        
+        <DataTemplate x:Key="FlyoutItemTemplate">
+            <Grid Style="{StaticResource GridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+                <Image 
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    HeightRequest="25"
+                    Source="{Binding Icon}" />
+                <Label Grid.Column="1" Text="{Binding Title}" />
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="FlyoutHeaderTemplate">
+            <StackLayout>
+                <Label
+                    Margin="40,0,0,0"
+                    HeightRequest="35"
+                    Text="{Binding Text}"
+                    VerticalTextAlignment="Center">
+                </Label>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.Resources>
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <MenuItem x:Name="menuItem" Text="Header Item" Shell.MenuItemTemplate="{StaticResource FlyoutHeaderTemplate}"></MenuItem>
+    <MenuItem x:Name="subItem" Text="Sub Item" Shell.MenuItemTemplate="{StaticResource FlyoutItemTemplate}"></MenuItem>
+
+    <MenuItem x:Name="menuItem2" Text="Header Item 2" Clicked="menuItem2_Clicked"></MenuItem>
+    <MenuItem x:Name="subItem2" Text="Sub Item 2" Shell.FlyoutItemIsVisible="False"></MenuItem>
+
+
+</Shell>
